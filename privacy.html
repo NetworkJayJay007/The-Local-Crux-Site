@@ -16,9 +16,13 @@
     background: #fefaf5;
   }
   h1 { color: #c15321; margin-bottom: 4px; }
-  .meta { color: #6b6b6b; margin-top: 0; margin-bottom: 40px; }
+  .meta { color: #6b6b6b; margin-top: 0; margin-bottom: 8px; }
+  .doc-nav { color: #6b6b6b; margin-top: 0; margin-bottom: 40px; font-size: 0.95em; }
+  .doc-nav strong { color: #1c1c1e; }
   h2 { margin-top: 36px; font-size: 1.1em; }
   a { color: #c15321; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
   .back { display: inline-block; margin-bottom: 32px; }
 </style>
 </head>
@@ -26,6 +30,7 @@
   <a class="back" href="index.html">&larr; Back to Support</a>
   <h1>Privacy Policy</h1>
   <p class="meta">Last updated August 20, 2026</p>
+  <p class="doc-nav"><a href="terms.html">Terms of Service</a> · <strong>Privacy Policy</strong> · <a href="liability.html">Liability Disclaimer</a> · <a href="guidelines.html">Community Guidelines</a></p>
 
   <p>This Privacy Policy explains what information The Local Crux collects, how it is used, what other climbers can and cannot see, and how to reach us about your data.</p>
 
@@ -33,33 +38,33 @@
   <p>When you create an account, we collect an email address or the identifier your sign-in provider (Apple or Google) shares with us, and a display name. When you build your profile, we collect what you choose to enter: birth date, area, home gym, climbing grades, climbing styles and experience, availability, gender identity and partner preference, climbing role, certifications, mentorship interests, outdoor wishlist, and an optional profile photo. Height and weight are optional and separate from the rest of your profile — see Section 3.</p>
 
   <h2>2. Information Collected Automatically</h2>
-  <p>When you check in at a gym, we record the gym and timestamps (when you checked in, and when you last confirmed you're still there). The coordinates you were at when you checked in are used momentarily, on our server, to confirm you were actually near the gym — they are not stored. When you search for nearby gyms or view the community map, your device's approximate location is used to run that search — it is not stored beyond what is needed to complete it. If you submit a safety report, we store the report category, your description, and which account it was filed against. We use Firebase Cloud Messaging to deliver push notifications (which requires a device push token) and Firebase Crashlytics to collect crash reports if the app fails unexpectedly — see Section 5.</p>
+  <p>When you check in at a gym, we record the gym and timestamps (when you checked in, and when you last confirmed you&#x27;re still there). The coordinates you were at when you checked in are used momentarily, on our server, to confirm you were actually near the gym — they are not stored. When you search for nearby gyms or view the community map, your device&#x27;s approximate location is used to run that search — it is not stored beyond what is needed to complete it. If you submit a safety report, we store the report category, your description, and which account it was filed against. We use Firebase Cloud Messaging to deliver push notifications (which requires a device push token) and Firebase Crashlytics to collect crash reports if the app fails unexpectedly — see Section 5.</p>
 
   <h2>3. What Other Users Can and Cannot See</h2>
-  <p>Other climbers can see: your display name, an age computed from your birth date (never the birth date itself), an approximate area rather than exact coordinates, your home gym, climbing grades, styles and experience, climbing role, certifications, availability, gender identity, and your profile photo if you have one. Other climbers can never see: your exact birth date, your height or weight, your exact GPS coordinates, your email address, or who has reported or blocked whom. Height and weight are stored separately from the rest of your profile specifically so they are never sent to another user's device — they exist only to support future lead-partner matching between consenting climbers who choose to share that information themselves.</p>
+  <p>Other climbers can see: your display name, an age computed from your birth date (never the birth date itself), an approximate area rather than exact coordinates, your home gym, climbing grades, styles and experience, climbing role, certifications, availability, gender identity, and your profile photo if you have one. Other climbers can never see: your exact birth date, your height or weight, your exact GPS coordinates, your email address, or who has reported or blocked whom. Height and weight are stored separately from the rest of your profile specifically so they are never sent to another user&#x27;s device — they exist only to support future lead-partner matching between consenting climbers who choose to share that information themselves.</p>
 
   <h2>4. How We Use Your Information</h2>
-  <p>We use your information to: show you compatible climbing partners and show your profile to theirs; operate check-ins, connections, blocking, and reporting; investigate safety reports and enforce our Terms; and improve the matching and discovery features. We do not use your information to serve third-party advertising, and we do not sell your information.</p>
+  <p>We use your information to: show you compatible climbing partners and show your profile to theirs; operate check-ins, connections, blocking, and reporting; investigate safety reports and enforce these Terms; and improve the matching and discovery features. We do not use your information to serve third-party advertising, and we do not sell your information.</p>
 
   <h2>5. Service Providers</h2>
-  <p>We use Supabase to host our database, authentication, and file storage — your account and profile data lives there, protected by row-level access rules that restrict what any given account can read or write. Sign-in is handled by Apple or Google when you choose those options, or by Supabase's own email sign-in otherwise; we receive only what those providers share (typically an email address and, on a first authorization, a display name). Gym search is powered by a directory of gyms we maintain in our own database, built from OpenStreetMap data, matched against your approximate location. If that directory can't be reached, the app falls back to a live query to OpenStreetMap's public Overpass service using your approximate location, which is not warehoused by us. We use Google Firebase for two things: Cloud Messaging delivers push notifications, which requires sharing a device push token with Firebase, and Crashlytics collects crash reports if the app fails unexpectedly, which is not linked to your account identity. None of these providers receive your climbing profile, safety reports, or private fields.</p>
+  <p>We use Supabase to host our database, authentication, and file storage — your account and profile data lives there, protected by row-level access rules that restrict what any given account can read or write. Sign-in is handled by Apple or Google when you choose those options, or by Supabase&#x27;s own email sign-in otherwise; we receive only what those providers share (typically an email address and, on a first authorization, a display name). Gym search is powered by a directory of gyms we maintain in our own database, built from OpenStreetMap data, matched against your approximate location. If that directory can&#x27;t be reached, the app falls back to a live query to OpenStreetMap&#x27;s public Overpass service using your approximate location, which is not warehoused by us. We use Google Firebase for two things: Cloud Messaging delivers push notifications, which requires sharing a device push token with Firebase, and Crashlytics collects crash reports if the app fails unexpectedly, which is not linked to your account identity. None of these providers receive your climbing profile, safety reports, or private fields.</p>
 
   <h2>6. Data Retention and Deletion</h2>
-  <p>We keep your account data for as long as your account is active. You can request deletion at any time by emailing <a href="mailto:Help@TheLocalCrux.com">Help@TheLocalCrux.com</a>. We will delete your profile, private data (birth date, height, weight), check-ins, and connections. Safety reports filed against your account, and blocks other users have placed on you, may be retained even after deletion — they describe another user's decision, not just yours, and exist to keep that protection in place for the person who filed them.</p>
+  <p>We keep your account data for as long as your account is active. You can request deletion at any time by emailing Help@TheLocalCrux.com. We will delete your profile, private data (birth date, height, weight), check-ins, and connections. Safety reports filed against your account, and blocks other users have placed on you, may be retained even after deletion — they describe another user&#x27;s decision, not just yours, and exist to keep that protection in place for the person who filed them.</p>
 
   <h2>7. Security</h2>
-  <p>We rely on Supabase's infrastructure and row-level security policies to restrict access to your data, and data is encrypted in transit. No system is perfectly secure, and we cannot guarantee the absolute security of information you provide.</p>
+  <p>We rely on Supabase&#x27;s infrastructure and row-level security policies to restrict access to your data, and data is encrypted in transit. No system is perfectly secure, and we cannot guarantee the absolute security of information you provide.</p>
 
-  <h2>8. Children's Privacy</h2>
+  <h2>8. Children&#x27;s Privacy</h2>
   <p>The Local Crux is not directed to, and may not be used by, anyone under 18. We do not knowingly collect information from anyone under 18. If we learn an account belongs to someone under that age, we will terminate it.</p>
 
   <h2>9. Your Choices</h2>
-  <p>You can review and edit most of your profile at any time from the Profile tab. You can block another user, or ask us to delete your account, at any time. You can email <a href="mailto:Help@TheLocalCrux.com">Help@TheLocalCrux.com</a> to request a copy of the data associated with your account.</p>
+  <p>You can review and edit most of your profile at any time from the Profile tab. You can block another user, or ask us to delete your account, at any time. You can email Help@TheLocalCrux.com to request a copy of the data associated with your account.</p>
 
   <h2>10. Changes to This Policy</h2>
-  <p>We may update this Policy as the App changes. Material changes will be reflected by updating the date above.</p>
+  <p>We may update this Policy as the App changes. Material changes will be reflected by updating the date below.</p>
 
   <h2>11. Contact</h2>
-  <p>Questions about this Policy, or a data request, can be sent to <a href="mailto:Help@TheLocalCrux.com">Help@TheLocalCrux.com</a>.</p>
+  <p>Questions about this Policy, or a data request, can be sent to Help@TheLocalCrux.com.</p>
 </body>
 </html>
