@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
   <header class="site">
@@ -46,7 +47,37 @@
       </h2>
       <div class="card">
         <strong>Need help, or want to report an issue?</strong>
-        <p>Email us at <a href="mailto:Help@TheLocalCrux.com">Help@TheLocalCrux.com</a> and we'll get back to you.</p>
+        <p>Email us at <a href="mailto:Help@TheLocalCrux.com">Help@TheLocalCrux.com</a>, or use the form below — it goes straight to us the same way in-app feedback does.</p>
+      </div>
+
+      <div class="card">
+        <form id="feedback-form">
+          <label for="fb_name">Name <span class="optional">(optional)</span></label>
+          <input type="text" id="fb_name" name="name" maxlength="200">
+
+          <label for="fb_email">Email</label>
+          <input type="email" id="fb_email" name="email" required maxlength="320">
+
+          <label for="fb_category">Category</label>
+          <select id="fb_category" name="category">
+            <option value="Bug">Bug</option>
+            <option value="Feature Request">Feature Request</option>
+            <option value="Feedback" selected>Feedback</option>
+          </select>
+
+          <label for="fb_message">Message</label>
+          <textarea id="fb_message" name="message" required maxlength="4000"></textarea>
+
+          <div class="honeypot" aria-hidden="true">
+            <label for="fb_website">Website</label>
+            <input type="text" id="fb_website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEW5UgV8NWczo5ST" data-action="website_feedback"></div>
+
+          <button type="submit" id="fb-submit-button" class="btn" style="margin-top: 20px;">Send feedback</button>
+          <p id="fb-status" class="status" role="status"></p>
+        </form>
       </div>
 
       <h2>
@@ -122,6 +153,60 @@
       </nav>
     </div>
   </footer>
+
+  <script>
+    const FEEDBACK_ENDPOINT = "https://xioisuktsokyuupnobes.supabase.co/functions/v1/website-feedback-submit";
+    const feedbackForm = document.getElementById("feedback-form");
+    const feedbackStatusEl = document.getElementById("fb-status");
+    const feedbackSubmitButton = document.getElementById("fb-submit-button");
+
+    feedbackForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      feedbackStatusEl.textContent = "";
+      feedbackStatusEl.className = "status";
+
+      const turnstileToken = feedbackForm.querySelector('[name="cf-turnstile-response"]')?.value;
+      if (!turnstileToken) {
+        feedbackStatusEl.textContent = "Please complete the verification check above.";
+        feedbackStatusEl.className = "status error";
+        return;
+      }
+
+      feedbackSubmitButton.disabled = true;
+      feedbackStatusEl.textContent = "Sending…";
+
+      const body = {
+        name: feedbackForm.name.value.trim(),
+        email: feedbackForm.email.value.trim(),
+        category: feedbackForm.category.value,
+        message: feedbackForm.message.value.trim(),
+        website: feedbackForm.website.value,
+        turnstile_token: turnstileToken,
+      };
+
+      try {
+        const response = await fetch(FEEDBACK_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || "Something went wrong.");
+        }
+        feedbackForm.style.display = "none";
+        feedbackStatusEl.textContent = "Thanks — this has been sent. We'll be in touch if we need anything else.";
+        feedbackStatusEl.className = "status success";
+      } catch (error) {
+        feedbackStatusEl.textContent = "Couldn't send that: " + error.message + " You can also email Help@TheLocalCrux.com directly.";
+        feedbackStatusEl.className = "status error";
+        feedbackSubmitButton.disabled = false;
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
+      }
+    });
+  </script>
 
   <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="thelocalcrux" data-description="Support me on Buy me a coffee!" data-message="" data-color="#C15321" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 </body>

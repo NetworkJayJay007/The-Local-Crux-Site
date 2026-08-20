@@ -339,7 +339,8 @@ form label {
 
 form label .optional { font-weight: 400; color: var(--text-muted); }
 
-input[type="text"], input[type="email"], input[type="url"], textarea {
+input[type="text"], input[type="email"], input[type="url"], input[type="number"],
+input[type="date"], textarea, select {
   width: 100%;
   padding: 12px 14px;
   border: 1.5px solid var(--border);
@@ -350,7 +351,7 @@ input[type="text"], input[type="email"], input[type="url"], textarea {
   color: var(--text);
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--accent);
 }
