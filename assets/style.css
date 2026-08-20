@@ -405,3 +405,27 @@ footer.site nav a {
   font-size: 0.88em;
   margin-left: 14px;
 }
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  background: var(--crux-stone);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.social-links a:hover {
+  background: var(--accent-wash);
+  color: var(--accent-pressed);
+  text-decoration: none;
+}
