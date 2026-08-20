@@ -66,6 +66,9 @@
           <label for="requested_days">Number of days</label>
           <input type="number" id="requested_days" name="requested_days" required min="1" max="365" value="7">
 
+          <label for="promo_code">Promo code <span class="optional">(optional)</span></label>
+          <input type="text" id="promo_code" name="promo_code" maxlength="40" autocapitalize="characters">
+
           <p id="price-summary" class="meta" style="margin-top: 8px;">Loading pricing…</p>
 
           <div class="honeypot" aria-hidden="true">
@@ -113,25 +116,73 @@
     const priceSummaryEl = document.getElementById("price-summary");
     const startsOnInput = document.getElementById("starts_on");
     const requestedDaysInput = document.getElementById("requested_days");
+    const promoCodeInput = document.getElementById("promo_code");
 
     const today = new Date();
     startsOnInput.min = today.toISOString().slice(0, 10);
     startsOnInput.value = today.toISOString().slice(0, 10);
 
-    let dailyRateCents = null;
+    let standardRateCents = null;
+    // null = no code entered/checked yet, false = checked and invalid,
+    // a number = the code's override rate.
+    let promoRateCents = null;
+    let promoCheckToken = 0;
 
     function updatePriceSummary() {
-      if (dailyRateCents === null) {
+      const effectiveRate = typeof promoRateCents === "number" ? promoRateCents : standardRateCents;
+      if (effectiveRate === null) {
         priceSummaryEl.textContent = "Pricing unavailable right now — you can still submit and we'll follow up.";
         return;
       }
       const days = Math.max(1, parseInt(requestedDaysInput.value, 10) || 1);
-      const totalDollars = ((dailyRateCents * days) / 100).toFixed(2);
-      const dailyDollars = (dailyRateCents / 100).toFixed(2);
-      priceSummaryEl.textContent = `$${dailyDollars}/day × ${days} day${days === 1 ? "" : "s"} = $${totalDollars} total`;
+      const totalDollars = ((effectiveRate * days) / 100).toFixed(2);
+      const dailyDollars = (effectiveRate / 100).toFixed(2);
+      let text = `$${dailyDollars}/day × ${days} day${days === 1 ? "" : "s"} = $${totalDollars} total`;
+      if (promoRateCents === false) {
+        text += " — that promo code isn't valid";
+      } else if (typeof promoRateCents === "number") {
+        text += " (promo code applied)";
+      }
+      priceSummaryEl.textContent = text;
     }
 
     requestedDaysInput.addEventListener("input", updatePriceSummary);
+
+    function checkPromoCode() {
+      const code = promoCodeInput.value.trim();
+      const myToken = ++promoCheckToken;
+      if (!code) {
+        promoRateCents = null;
+        updatePriceSummary();
+        return;
+      }
+      fetch(SUPABASE_URL + "/rest/v1/rpc/get_bulletin_promo_rate_cents", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_PUBLISHABLE_KEY,
+          Authorization: "Bearer " + SUPABASE_PUBLISHABLE_KEY,
+        },
+        body: JSON.stringify({ p_code: code }),
+      })
+        .then((response) => (response.ok ? response.json() : null))
+        .then((cents) => {
+          if (myToken !== promoCheckToken) return; // a newer keystroke superseded this check
+          promoRateCents = typeof cents === "number" ? cents : false;
+          updatePriceSummary();
+        })
+        .catch(() => {
+          if (myToken !== promoCheckToken) return;
+          promoRateCents = false;
+          updatePriceSummary();
+        });
+    }
+
+    let promoDebounce;
+    promoCodeInput.addEventListener("input", () => {
+      clearTimeout(promoDebounce);
+      promoDebounce = setTimeout(checkPromoCode, 400);
+    });
 
     fetch(SUPABASE_URL + "/rest/v1/rpc/get_bulletin_daily_rate_cents", {
       method: "POST",
@@ -145,7 +196,7 @@
       .then((response) => (response.ok ? response.json() : null))
       .then((cents) => {
         if (typeof cents === "number") {
-          dailyRateCents = cents;
+          standardRateCents = cents;
         }
         updatePriceSummary();
       })
@@ -175,6 +226,7 @@
         image_url: form.image_url.value.trim() || undefined,
         starts_on: form.starts_on.value,
         requested_days: parseInt(form.requested_days.value, 10),
+        promo_code: form.promo_code.value.trim() || undefined,
         website: form.website.value,
         turnstile_token: turnstileToken,
       };
