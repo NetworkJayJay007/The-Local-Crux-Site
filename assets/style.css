@@ -164,6 +164,21 @@ header.site nav a.current {
   margin: 0 auto;
 }
 
+.download-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 32px 0 12px;
+}
+
+.download-note {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9em;
+  margin: 0 0 12px;
+}
+
 /* ---------------------------------------------------------------------
    Page header (legal / form pages — no hero, just a title block)
 --------------------------------------------------------------------- */
