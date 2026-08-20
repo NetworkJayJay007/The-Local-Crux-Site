@@ -36,7 +36,7 @@
   <main>
     <div class="wrap page-title">
       <h1>Submit to the Bulletin</h1>
-      <p class="meta">Gym or brand deals, events, and meetups relevant to climbers. Every submission is reviewed before it goes live — nothing posts automatically.</p>
+      <p class="meta">Gym or brand deals, events, and meetups relevant to climbers. Every submission is reviewed before it goes live — nothing posts automatically. You'll place a card hold when you submit; it's only charged once we approve the listing, and released entirely if we don't.</p>
     </div>
 
     <div class="wrap">
@@ -60,6 +60,14 @@
           <label for="image_url">Image URL <span class="optional">(optional)</span></label>
           <input type="url" id="image_url" name="image_url" maxlength="2000" placeholder="https://">
 
+          <label for="starts_on">Start date</label>
+          <input type="date" id="starts_on" name="starts_on" required>
+
+          <label for="requested_days">Number of days</label>
+          <input type="number" id="requested_days" name="requested_days" required min="1" max="365" value="7">
+
+          <p id="price-summary" class="meta" style="margin-top: 8px;">Loading pricing…</p>
+
           <div class="honeypot" aria-hidden="true">
             <label for="website">Website</label>
             <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
@@ -67,7 +75,7 @@
 
           <div class="cf-turnstile" data-sitekey="0x4AAAAAAEW5UgV8NWczo5ST" data-action="bulletin_submit"></div>
 
-          <button type="submit" id="submit-button" class="btn" style="margin-top: 20px;">Submit for review</button>
+          <button type="submit" id="submit-button" class="btn" style="margin-top: 20px;">Continue to payment</button>
           <p id="status" class="status" role="status"></p>
         </form>
       </div>
@@ -96,10 +104,52 @@
   </footer>
 
   <script>
-    const ENDPOINT = "https://xioisuktsokyuupnobes.supabase.co/functions/v1/bulletin-submit-request";
+    const SUPABASE_URL = "https://xioisuktsokyuupnobes.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_szx3egTPABoU3xKzowV3KA_W9XIk4cz";
+    const ENDPOINT = SUPABASE_URL + "/functions/v1/bulletin-submit-request";
     const form = document.getElementById("bulletin-form");
     const statusEl = document.getElementById("status");
     const submitButton = document.getElementById("submit-button");
+    const priceSummaryEl = document.getElementById("price-summary");
+    const startsOnInput = document.getElementById("starts_on");
+    const requestedDaysInput = document.getElementById("requested_days");
+
+    const today = new Date();
+    startsOnInput.min = today.toISOString().slice(0, 10);
+    startsOnInput.value = today.toISOString().slice(0, 10);
+
+    let dailyRateCents = null;
+
+    function updatePriceSummary() {
+      if (dailyRateCents === null) {
+        priceSummaryEl.textContent = "Pricing unavailable right now — you can still submit and we'll follow up.";
+        return;
+      }
+      const days = Math.max(1, parseInt(requestedDaysInput.value, 10) || 1);
+      const totalDollars = ((dailyRateCents * days) / 100).toFixed(2);
+      const dailyDollars = (dailyRateCents / 100).toFixed(2);
+      priceSummaryEl.textContent = `$${dailyDollars}/day × ${days} day${days === 1 ? "" : "s"} = $${totalDollars} total`;
+    }
+
+    requestedDaysInput.addEventListener("input", updatePriceSummary);
+
+    fetch(SUPABASE_URL + "/rest/v1/rpc/get_bulletin_daily_rate_cents", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: SUPABASE_PUBLISHABLE_KEY,
+        Authorization: "Bearer " + SUPABASE_PUBLISHABLE_KEY,
+      },
+      body: "{}",
+    })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((cents) => {
+        if (typeof cents === "number") {
+          dailyRateCents = cents;
+        }
+        updatePriceSummary();
+      })
+      .catch(() => updatePriceSummary());
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -123,6 +173,8 @@
         body: form.body.value.trim(),
         link_url: form.link_url.value.trim() || undefined,
         image_url: form.image_url.value.trim() || undefined,
+        starts_on: form.starts_on.value,
+        requested_days: parseInt(form.requested_days.value, 10),
         website: form.website.value,
         turnstile_token: turnstileToken,
       };
@@ -136,6 +188,12 @@
         const result = await response.json();
         if (!response.ok || !result.ok) {
           throw new Error(result.error || "Something went wrong.");
+        }
+        if (result.checkout_url) {
+          statusEl.textContent = "Taking you to payment…";
+          statusEl.className = "status success";
+          window.location.href = result.checkout_url;
+          return;
         }
         form.style.display = "none";
         statusEl.textContent = "Thanks — this has been sent for review. We'll be in touch if we need anything else.";
