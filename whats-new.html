@@ -10,20 +10,20 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
   <header class="site">
     <div class="wrap">
-      <a class="brand" href="index.html" aria-label="The Local Crux">
+      <a class="brand" href="/" aria-label="The Local Crux">
         <picture>
           <source srcset="assets/logo-dark.png" media="(prefers-color-scheme: dark)">
           <img src="assets/logo-light.png" alt="The Local Crux">
         </picture>
       </a>
       <nav>
-        <a href="index.html">Home</a>
+        <a href="/">Home</a>
         <a href="support.html">Support</a>
         <a href="whats-new.html" class="current">What's New</a>
         <a href="bulletin-submit.html">Bulletin</a>
@@ -125,8 +125,8 @@
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML =
-            `<strong>${escapeHtml(row.version)}</strong>` +
-            `<p class="meta" style="margin-top: 2px;">${formatDate(row.published_at)}</p>` +
+            `<span class="build-tag">${escapeHtml(row.version)}</span>` +
+            `<p class="meta" style="margin-top: 8px;">${formatDate(row.published_at)}</p>` +
             renderNotesHtml(row.notes);
           notesWrap.appendChild(card);
         }

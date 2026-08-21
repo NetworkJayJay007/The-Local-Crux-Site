@@ -22,6 +22,11 @@
   --accent-wash: var(--crux-orange-wash);
   --border: var(--crux-sand);
   --shadow: 0 1px 2px rgba(46, 42, 39, 0.06), 0 8px 24px rgba(46, 42, 39, 0.06);
+
+  /* Grades (5.10a, V4) are set in a distinct face at every gym and
+     guidebook — borrowed here for anything that's a version/build/date
+     tag rather than prose, so it reads as data, not a heading. */
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -97,6 +102,10 @@ header.site .brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  /* Flex items default to min-width: auto, which refuses to shrink below
+     content size and defeats the row's own flex-wrap — on a narrow phone
+     this silently widened the whole page instead of wrapping the nav. */
+  min-width: 0;
 }
 
 header.site .brand img {
@@ -109,6 +118,7 @@ header.site nav {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 header.site nav a {
@@ -136,8 +146,42 @@ header.site nav a.current {
 --------------------------------------------------------------------- */
 
 .hero {
-  padding: 56px 0 8px;
+  position: relative;
+  /* Longhand on purpose: this element is always .hero.wrap together, and
+     a padding shorthand here would silently zero .wrap's left/right
+     padding (a 3-value shorthand's implied left = its right = 0) --
+     real bug, caught testing at a phone width, edge-to-edge text. */
+  padding-top: 56px;
+  padding-bottom: 8px;
   text-align: center;
+  overflow: hidden;
+}
+
+/* The signature: a dashed beta line with two marked holds, the way a
+   climber marks a route on a topo photo — behind the headline rather
+   than illustrating anything literally. Static, not animated: the
+   line itself is the moment, it doesn't need to move too. */
+.hero .route-line {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(640px, 160%);
+  height: auto;
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero .route-line { opacity: 0.4; }
+}
+
+.hero img.mark,
+.hero h1,
+.hero .tagline {
+  position: relative;
+  z-index: 1;
 }
 
 .hero img.mark {
@@ -184,7 +228,9 @@ header.site nav a.current {
 --------------------------------------------------------------------- */
 
 .page-title {
-  padding: 40px 0 8px;
+  /* Longhand — see .hero's comment above, same collision with .wrap. */
+  padding-top: 40px;
+  padding-bottom: 8px;
 }
 
 .page-title h1 {
@@ -232,6 +278,19 @@ h2 svg { flex: none; color: var(--accent); }
   display: block;
   font-size: 1.05em;
   margin-bottom: 6px;
+}
+
+/* A version/build tag styled like a grade badge — whats-new.html. */
+.build-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent-pressed);
+  background: var(--accent-wash);
+  padding: 3px 10px;
+  border-radius: 6px;
 }
 
 .card p:last-child { margin-bottom: 0; }

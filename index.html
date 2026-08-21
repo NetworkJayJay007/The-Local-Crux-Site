@@ -2,9 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+  // GitHub Pages serves this same file for both / and /index.html --
+  // anyone who bookmarked, shared, or typed the old /index.html URL
+  // still lands here correctly, then gets bounced to the canonical /.
+  // Checked against the literal path (not just "redirect always") so
+  // this can't loop when the file is reached via / itself.
+  if (location.pathname === "/index.html") {
+    location.replace("/" + location.search + location.hash);
+  }
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Local Crux</title>
 <meta name="description" content="The Local Crux helps climbers find local partners with compatible skill, style, and schedule. Currently in beta on TestFlight and Firebase.">
+<link rel="canonical" href="https://thelocalcrux.com/">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -16,14 +27,14 @@
 <body>
   <header class="site">
     <div class="wrap">
-      <a class="brand" href="index.html" aria-label="The Local Crux">
+      <a class="brand" href="/" aria-label="The Local Crux">
         <picture>
           <source srcset="assets/logo-dark.png" media="(prefers-color-scheme: dark)">
           <img src="assets/logo-light.png" alt="The Local Crux">
         </picture>
       </a>
       <nav>
-        <a href="index.html" class="current">Home</a>
+        <a href="/" class="current">Home</a>
         <a href="support.html">Support</a>
         <a href="whats-new.html">What's New</a>
         <a href="bulletin-submit.html">Bulletin</a>
@@ -35,6 +46,13 @@
 
   <main>
     <div class="hero wrap">
+      <svg class="route-line" viewBox="0 0 400 180" fill="none" aria-hidden="true" focusable="false">
+        <path d="M24 150 C 90 120, 70 70, 140 60 S 240 30, 265 80 S 340 55, 376 18" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 11"/>
+        <circle cx="24" cy="150" r="5" fill="var(--accent)"/>
+        <circle cx="140" cy="60" r="3.5" fill="var(--accent)" opacity="0.65"/>
+        <circle cx="265" cy="80" r="3.5" fill="var(--accent)" opacity="0.65"/>
+        <circle cx="376" cy="18" r="5" fill="var(--accent)"/>
+      </svg>
       <img class="mark" src="assets/icon-256.png" alt="">
       <h1>The Local Crux</h1>
       <p class="tagline">Find local climbing partners with compatible skill, style, and schedule — not a dating app, not a marketplace, just climbers.</p>
@@ -58,21 +76,21 @@
       <div class="card-grid">
         <div class="card">
           <span class="icon-badge">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="8.5" cy="12" rx="5" ry="6.5" transform="rotate(-18 8.5 12)"/><ellipse cx="16.5" cy="12" rx="5" ry="6.5" transform="rotate(18 16.5 12)"/></svg>
           </span>
           <strong>Find real partners, not swipes</strong>
           <p>Matching weighs shared styles, grade, availability, and belay compatibility — the things that actually make a good climbing partner.</p>
         </div>
         <div class="card">
           <span class="icon-badge">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11.8A8 8 0 0 0 4 10.2C4 17.5 12 22 12 22z"/><circle cx="12" cy="10" r="3"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20l5.5-10 3.5 6 2.5-4.5L20 20z"/><circle cx="13.5" cy="6.5" r="1.75" fill="currentColor" stroke="none"/></svg>
           </span>
           <strong>See who's at your gym</strong>
           <p>A live community map and gym check-ins — know who's around and ready to climb, right now.</p>
         </div>
         <div class="card">
           <span class="icon-badge">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11.8A8 8 0 0 0 4 10.2C4 17.5 12 22 12 22z" opacity="0"/><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 3.5v5.5c0 5-3 8.5-7 11-4-2.5-7-6-7-11V5.5z"/><path d="M9 12l2 2 4-4"/></svg>
           </span>
           <strong>Built for safety, not just swiping</strong>
           <p>Real blocking, reporting reviewed by a real moderator, and clear guidelines — this app exists to find belay partners, not dates.</p>
