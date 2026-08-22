@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Local Crux — Delete Your Account</title>
+<meta name="description" content="Request permanent deletion of your The Local Crux account and data.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="The Local Crux">
+        <picture>
+          <source srcset="assets/logo-dark.png" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo-light.png" alt="The Local Crux">
+        </picture>
+      </a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="support.html">Support</a>
+        <a href="whats-new.html">What's New</a>
+        <a href="bulletin-submit.html">Bulletin</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap page-title">
+      <h1>Delete Your Account</h1>
+      <p class="meta">Request permanent deletion of your account and all associated data — profile, matches, messages, check-ins, reports, and photos. This can't be undone.</p>
+    </div>
+
+    <div class="wrap">
+      <div class="card">
+        <p>Submit the email address you signed up with below. A person reviews every request and deletes the account by hand, usually within a few days. If you'd rather email directly, use <a href="mailto:Help@TheLocalCrux.com">Help@TheLocalCrux.com</a> with the subject "Delete my account."</p>
+
+        <form id="deletion-form">
+          <label for="email">Account Email</label>
+          <input type="email" id="email" name="email" required maxlength="320">
+
+          <label for="reason">Reason <span class="optional">(optional)</span></label>
+          <textarea id="reason" name="reason" maxlength="2000"></textarea>
+
+          <label style="display: flex; align-items: flex-start; gap: 8px; font-weight: 400;">
+            <input type="checkbox" id="confirm" required style="width: auto; margin-top: 4px;">
+            <span>I understand this permanently deletes my account and all of its data, and can't be undone.</span>
+          </label>
+
+          <div class="honeypot" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEW5UgV8NWczo5ST" data-action="account_deletion_request"></div>
+
+          <button type="submit" id="submit-button" class="btn" style="margin-top: 20px;">Request Deletion</button>
+        </form>
+        <p id="status" class="status" role="status"></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="brand">
+        <picture>
+          <source srcset="assets/logo-dark.png" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo-light.png" alt="">
+        </picture>
+        <span>© The Local Crux</span>
+      </div>
+      <div class="social-links">
+        <a href="https://www.instagram.com/thelocalcrux/" target="_blank" rel="noopener" aria-label="Follow The Local Crux on Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+      <nav>
+        <a href="mailto:Help@TheLocalCrux.com">Contact</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const ENDPOINT = "https://xioisuktsokyuupnobes.supabase.co/functions/v1/account-deletion-request";
+    const form = document.getElementById("deletion-form");
+    const statusEl = document.getElementById("status");
+    const submitButton = document.getElementById("submit-button");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      statusEl.textContent = "";
+      statusEl.className = "status";
+
+      const turnstileToken = form.querySelector('[name="cf-turnstile-response"]')?.value;
+      if (!turnstileToken) {
+        statusEl.textContent = "Please complete the verification check above.";
+        statusEl.className = "status error";
+        return;
+      }
+
+      submitButton.disabled = true;
+      statusEl.textContent = "Submitting…";
+
+      const body = {
+        email: form.email.value.trim(),
+        reason: form.reason.value.trim(),
+        website: form.website.value,
+        turnstile_token: turnstileToken,
+      };
+
+      try {
+        const response = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || "Something went wrong.");
+        }
+        form.style.display = "none";
+        statusEl.textContent = "Thanks — we've received your request and will delete your account and data within a few days.";
+        statusEl.className = "status success";
+      } catch (error) {
+        statusEl.textContent = "Couldn't submit that: " + error.message + " You can also email Help@TheLocalCrux.com directly.";
+        statusEl.className = "status error";
+        submitButton.disabled = false;
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
+      }
+    });
+  </script>
+
+  <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="thelocalcrux" data-description="Support me on Buy me a coffee!" data-message="" data-color="#C15321" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+</body>
+</html>
