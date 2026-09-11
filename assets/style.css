@@ -272,16 +272,23 @@ header.site nav a.current {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  flex-wrap: wrap;
 }
 
 .download-card-main > div:first-child {
-  flex: 1 1 260px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .download-card-main strong { margin-bottom: 4px; }
 .download-card-main p { margin: 0; }
-.download-card-main .btn { flex: none; }
+.download-card-main .btn { flex: none; white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .download-card-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 
 .download-note {
   color: var(--text-muted);
