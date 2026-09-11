@@ -255,19 +255,38 @@ header.site nav a.current {
   margin: 0 auto;
 }
 
-.download-row {
+.download-stack {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin: 32px 0 12px;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 32px;
 }
 
+.download-card {
+  margin: 0;
+  padding: 18px 22px;
+}
+
+.download-card-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.download-card-main > div:first-child {
+  flex: 1 1 260px;
+}
+
+.download-card-main strong { margin-bottom: 4px; }
+.download-card-main p { margin: 0; }
+.download-card-main .btn { flex: none; }
+
 .download-note {
-  text-align: center;
   color: var(--text-muted);
-  font-size: 0.9em;
-  margin: 0 0 12px;
+  font-size: 0.85em;
+  margin: 12px 0 0;
 }
 
 /* ---------------------------------------------------------------------
