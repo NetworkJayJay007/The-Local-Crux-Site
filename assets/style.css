@@ -437,6 +437,12 @@ h2 svg { flex: none; color: var(--accent); }
   margin: 14px 0 0;
 }
 
+.team-linkedin {
+  margin-top: 14px;
+  padding: 8px 16px;
+  font-size: 0.9em;
+}
+
 .team-contact {
   text-align: center;
   color: var(--text-muted);
