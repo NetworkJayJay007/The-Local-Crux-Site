@@ -463,6 +463,11 @@ h2 svg { flex: none; color: var(--accent); }
   margin: 28px 0 0;
 }
 
+.team-bio-pending {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 /* ---------------------------------------------------------------------
    Buttons
 --------------------------------------------------------------------- */
