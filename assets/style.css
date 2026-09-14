@@ -281,6 +281,7 @@ header.site nav a.current {
 .download-card-stacked .btn { display: inline-flex; }
 .download-card-stacked .download-card-actions { margin-bottom: 12px; }
 .download-card-stacked .download-note { margin-top: 0; }
+.download-card-stacked .btn + .download-note { margin-top: 14px; }
 
 @media (max-width: 640px) {
   .download-card-actions {
