@@ -395,6 +395,50 @@ h2 svg { flex: none; color: var(--accent); }
 }
 
 /* ---------------------------------------------------------------------
+   Meet the Team (team.html)
+--------------------------------------------------------------------- */
+
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+@media (min-width: 620px) {
+  .team-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.team-card {
+  margin: 0;
+  text-align: center;
+}
+
+.team-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 16px;
+  display: block;
+}
+
+.team-card strong { font-size: 1.15em; margin-bottom: 2px; }
+
+.team-title {
+  color: var(--accent-pressed);
+  font-weight: 600;
+  font-size: 0.9em;
+  margin: 0 0 12px;
+}
+
+.team-contact {
+  text-align: center;
+  color: var(--text-muted);
+  margin: 28px 0 0;
+}
+
+/* ---------------------------------------------------------------------
    Buttons
 --------------------------------------------------------------------- */
 
