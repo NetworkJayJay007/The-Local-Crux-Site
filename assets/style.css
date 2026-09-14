@@ -425,6 +425,13 @@ h2 svg { flex: none; color: var(--accent); }
 
 .team-card strong { font-size: 1.15em; margin-bottom: 2px; }
 
+.team-pronouns {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.75em;
+  color: var(--text-muted);
+}
+
 .team-title {
   color: var(--accent-pressed);
   font-weight: 600;
