@@ -267,42 +267,22 @@ header.site nav a.current {
   padding: 18px 22px;
 }
 
-.download-card-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.download-card-main > div:first-child {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.download-card-main strong { margin-bottom: 4px; }
-.download-card-main p { margin: 0; }
-.download-card-main .btn { flex: none; white-space: nowrap; }
-
 .download-card-actions {
   display: flex;
   gap: 10px;
   flex: none;
 }
 
-/* Android card: instructions, then buttons, then the disclaimer below —
-   stacked top to bottom rather than the text/button side-by-side row the
-   iPhone card still uses (`.download-card-main`). */
+/* Both cards: instructions on top, then the button(s), then (Android only)
+   the disclaimer below that — a plain vertical stack of direct children,
+   uniform between the two cards. */
 .download-card-stacked strong { display: block; margin-bottom: 4px; }
 .download-card-stacked > p { margin: 0 0 14px; }
+.download-card-stacked .btn { display: inline-flex; }
 .download-card-stacked .download-card-actions { margin-bottom: 12px; }
 .download-card-stacked .download-note { margin-top: 0; }
 
 @media (max-width: 640px) {
-  .download-card-main {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .download-card-actions {
     flex-direction: column;
     align-items: stretch;
