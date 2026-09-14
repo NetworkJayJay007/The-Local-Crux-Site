@@ -432,6 +432,11 @@ h2 svg { flex: none; color: var(--accent); }
   margin: 0 0 12px;
 }
 
+.team-email {
+  font-size: 0.9em;
+  margin: 14px 0 0;
+}
+
 .team-contact {
   text-align: center;
   color: var(--text-muted);
