@@ -126,7 +126,7 @@
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML =
-            `<span class="build-tag">${escapeHtml(row.version)}</span>` +
+            `<span class="build-tag">${escapeHtml(row.version)} (${escapeHtml(String(row.build))})</span>` +
             `<p class="meta" style="margin-top: 8px;">${formatDate(row.published_at)}</p>` +
             renderNotesHtml(row.notes);
           notesWrap.appendChild(card);
