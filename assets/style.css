@@ -289,6 +289,14 @@ header.site nav a.current {
   flex: none;
 }
 
+/* Android card: instructions, then buttons, then the disclaimer below —
+   stacked top to bottom rather than the text/button side-by-side row the
+   iPhone card still uses (`.download-card-main`). */
+.download-card-stacked strong { display: block; margin-bottom: 4px; }
+.download-card-stacked > p { margin: 0 0 14px; }
+.download-card-stacked .download-card-actions { margin-bottom: 12px; }
+.download-card-stacked .download-note { margin-top: 0; }
+
 @media (max-width: 640px) {
   .download-card-main {
     flex-direction: column;
