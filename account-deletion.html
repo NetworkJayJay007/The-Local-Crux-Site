@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Local Crux — Delete Your Account</title>
+<title>The Local Crux: Delete Your Account</title>
 <meta name="description" content="Request permanent deletion of your The Local Crux account and data.">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
@@ -38,7 +38,7 @@
   <main>
     <div class="wrap page-title">
       <h1>Delete Your Account</h1>
-      <p class="meta">Request permanent deletion of your account and all associated data — profile, matches, messages, check-ins, reports, and photos. This can't be undone.</p>
+      <p class="meta">Request permanent deletion of your account and all associated data: profile, matches, messages, check-ins, reports, and photos. This can't be undone.</p>
     </div>
 
     <div class="wrap">
@@ -131,7 +131,7 @@
           throw new Error(result.error || "Something went wrong.");
         }
         form.style.display = "none";
-        statusEl.textContent = "Thanks — we've received your request and will delete your account and data within a few days.";
+        statusEl.textContent = "Thanks, we've received your request and will delete your account and data within a few days.";
         statusEl.className = "status success";
       } catch (error) {
         statusEl.textContent = "Couldn't submit that: " + error.message + " You can also email Help@TheLocalCrux.com directly.";

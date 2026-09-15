@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Local Crux — Submit to the Bulletin</title>
+<title>The Local Crux: Submit to the Bulletin</title>
 <meta name="description" content="Get a deal, event, or meetup in front of local climbers on The Local Crux Bulletin.">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
@@ -38,7 +38,7 @@
   <main>
     <div class="wrap page-title">
       <h1>Submit to the Bulletin</h1>
-      <p class="meta">Gym or brand deals, events, and meetups relevant to climbers. Every submission is reviewed before it goes live — nothing posts automatically. You'll place a card hold when you submit; it's only charged once we approve the listing, and released entirely if we don't.</p>
+      <p class="meta">Gym or brand deals, events, and meetups relevant to climbers. Every submission is reviewed before it goes live; nothing posts automatically. You'll place a card hold when you submit; it's only charged once we approve the listing, and released entirely if we don't.</p>
     </div>
 
     <div class="wrap">
@@ -56,7 +56,7 @@
           <label for="body">Details</label>
           <textarea id="body" name="body" required maxlength="4000"></textarea>
 
-          <label for="link_url">Link <span class="optional">(optional — event page, website, etc.)</span></label>
+          <label for="link_url">Link <span class="optional">(optional: event page, website, etc.)</span></label>
           <input type="url" id="link_url" name="link_url" maxlength="2000" placeholder="https://">
 
           <label for="image_url">Image URL <span class="optional">(optional)</span></label>
@@ -134,7 +134,7 @@
     function updatePriceSummary() {
       const effectiveRate = typeof promoRateCents === "number" ? promoRateCents : standardRateCents;
       if (effectiveRate === null) {
-        priceSummaryEl.textContent = "Pricing unavailable right now — you can still submit and we'll follow up.";
+        priceSummaryEl.textContent = "Pricing unavailable right now; you can still submit and we'll follow up.";
         return;
       }
       const days = Math.max(1, parseInt(requestedDaysInput.value, 10) || 1);
@@ -142,7 +142,7 @@
       const dailyDollars = (effectiveRate / 100).toFixed(2);
       let text = `$${dailyDollars}/day × ${days} day${days === 1 ? "" : "s"} = $${totalDollars} total`;
       if (promoRateCents === false) {
-        text += " — that promo code isn't valid";
+        text += " (that promo code isn't valid)";
       } else if (typeof promoRateCents === "number") {
         text += " (promo code applied)";
       }
@@ -251,7 +251,7 @@
           return;
         }
         form.style.display = "none";
-        statusEl.textContent = "Thanks — this has been sent for review. We'll be in touch if we need anything else.";
+        statusEl.textContent = "Thanks, this has been sent for review. We'll be in touch if we need anything else.";
         statusEl.className = "status success";
       } catch (error) {
         statusEl.textContent = "Couldn't submit that: " + error.message + " You can also try again in a moment, or email Help@TheLocalCrux.com directly.";
