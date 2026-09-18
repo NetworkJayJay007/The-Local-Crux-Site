@@ -500,6 +500,23 @@ h2 svg { flex: none; color: var(--accent); }
 
 .btn.secondary:hover { background: var(--accent-wash); }
 
+/* Step-number badges on the Android download card's two buttons (#367) --
+   currentColor so it reads correctly whether the button it's inside is
+   filled (white currentColor) or hollow (accent-colored currentColor),
+   no separate light/dark handling needed. */
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  font-size: 0.75em;
+  font-weight: 700;
+  flex: none;
+}
+
 /* ---------------------------------------------------------------------
    Doc nav (legal pages' Terms · Privacy · Liability · Guidelines strip)
 --------------------------------------------------------------------- */
