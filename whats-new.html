@@ -13,6 +13,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0640dd675be24d40ba9351e78dc34232"}'></script>
+<script>
+(function () {
+  try {
+    var params = new URLSearchParams(location.search);
+    var src = params.get("src");
+    if (!src) return;
+    fetch("https://xioisuktsokyuupnobes.supabase.co/rest/v1/rpc/record_tagged_visit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": "sb_publishable_szx3egTPABoU3xKzowV3KA_W9XIk4cz",
+        "Authorization": "Bearer sb_publishable_szx3egTPABoU3xKzowV3KA_W9XIk4cz"
+      },
+      body: JSON.stringify({
+        p_path: location.pathname,
+        p_src: src,
+        p_referrer: document.referrer || "",
+        p_user_agent: navigator.userAgent || ""
+      })
+    }).catch(function () {});
+    params.delete("src");
+    var qs = params.toString();
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
+  } catch (e) {}
+})();
+</script>
 </head>
 <body>
   <header class="site">
