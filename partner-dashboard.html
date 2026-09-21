@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Local Crux: Manage Your Gym</title>
+<meta name="description" content="Edit your gym's listing on The Local Crux.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0640dd675be24d40ba9351e78dc34232"}'></script>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="The Local Crux">
+        <picture>
+          <source srcset="assets/logo-dark.png" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo-light.png" alt="The Local Crux">
+        </picture>
+      </a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="support.html">Support</a>
+        <a href="#" id="sign-out-link">Sign out</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap page-title">
+      <h1>Manage Your Gym</h1>
+      <p class="meta">Changes here show up in the app right away — no app update needed.</p>
+    </div>
+
+    <div class="wrap">
+      <div id="loading-card" class="card">
+        <p>Loading…</p>
+      </div>
+      <div id="empty-card" class="card" style="display: none;">
+        <p>This account isn't set up to manage any gyms yet. Email <a href="mailto:Help@TheLocalCrux.com">Help@TheLocalCrux.com</a> if that's unexpected.</p>
+      </div>
+      <div id="gym-cards"></div>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="brand">
+        <picture>
+          <source srcset="assets/logo-dark.png" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo-light.png" alt="">
+        </picture>
+        <span>© The Local Crux</span>
+      </div>
+      <nav>
+        <a href="mailto:Help@TheLocalCrux.com">Contact</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = "https://xioisuktsokyuupnobes.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_szx3egTPABoU3xKzowV3KA_W9XIk4cz";
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const loadingCard = document.getElementById("loading-card");
+    const emptyCard = document.getElementById("empty-card");
+    const gymCardsEl = document.getElementById("gym-cards");
+
+    function escapeHtml(value) {
+      const div = document.createElement("div");
+      div.textContent = value ?? "";
+      return div.innerHTML;
+    }
+
+    function buildGymCard(gym) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3 style="margin-top: 0;">${escapeHtml(gym.gym_name)}</h3>
+        <p class="meta" style="margin-top: -8px;">${escapeHtml(gym.gym_area_label || "")}</p>
+        <form>
+          <label>Phone</label>
+          <input type="tel" name="phone" maxlength="50" value="${escapeHtml(gym.phone)}">
+
+          <label>Website</label>
+          <input type="url" name="website" maxlength="500" value="${escapeHtml(gym.website)}">
+
+          <label>Hours</label>
+          <input type="text" name="hours" maxlength="500" value="${escapeHtml(gym.hours)}" placeholder="e.g. Mo-Fr 06:00-22:00; Sa-Su 08:00-20:00">
+
+          <label>Description</label>
+          <textarea name="description" maxlength="1000">${escapeHtml(gym.description)}</textarea>
+
+          <button type="submit" class="btn" style="margin-top: 16px;">Save</button>
+        </form>
+        <p class="status" role="status"></p>
+      `;
+
+      const form = card.querySelector("form");
+      const statusEl = card.querySelector(".status");
+      const submitButton = form.querySelector("button[type=submit]");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        submitButton.disabled = true;
+        statusEl.textContent = "Saving…";
+        statusEl.className = "status";
+
+        const { error } = await client.rpc("update_my_gym", {
+          p_gym_id: gym.gym_id,
+          p_phone: form.phone.value.trim(),
+          p_website: form.website.value.trim(),
+          p_hours: form.hours.value.trim(),
+          p_description: form.description.value.trim(),
+        });
+
+        submitButton.disabled = false;
+        if (error) {
+          statusEl.textContent = "Couldn't save that: " + error.message;
+          statusEl.className = "status error";
+          return;
+        }
+        statusEl.textContent = "Saved.";
+        statusEl.className = "status success";
+      });
+
+      return card;
+    }
+
+    async function load() {
+      const { data: sessionData } = await client.auth.getSession();
+      if (!sessionData.session) {
+        location.replace("partner-login.html");
+        return;
+      }
+
+      const { data: gyms, error } = await client.rpc("my_partner_gyms");
+      loadingCard.style.display = "none";
+
+      if (error) {
+        loadingCard.style.display = "block";
+        loadingCard.querySelector("p").textContent = "Couldn't load your gyms: " + error.message;
+        return;
+      }
+
+      if (!gyms || gyms.length === 0) {
+        emptyCard.style.display = "block";
+        return;
+      }
+
+      for (const gym of gyms) {
+        gymCardsEl.appendChild(buildGymCard(gym));
+      }
+    }
+    load();
+
+    document.getElementById("sign-out-link").addEventListener("click", async (event) => {
+      event.preventDefault();
+      await client.auth.signOut();
+      location.replace("partner-login.html");
+    });
+  </script>
+</body>
+</html>
