@@ -609,10 +609,11 @@ footer.site {
 footer.site .wrap {
   padding: 28px 24px 40px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
 }
 
 footer.site .brand {
@@ -625,10 +626,17 @@ footer.site .brand {
 
 footer.site .brand img { height: 18px; width: auto; opacity: 0.8; }
 
+footer.site nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+}
+
 footer.site nav a {
   color: var(--text-muted);
   font-size: 0.88em;
-  margin-left: 14px;
+  white-space: nowrap;
 }
 
 .social-links {
