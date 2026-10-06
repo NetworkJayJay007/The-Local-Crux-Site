@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Local Crux: Fliers</title>
-<meta name="description" content="Print a flier to put up at your gym and help more climbers find The Local Crux.">
+<meta name="description" content="Download and print a flier to post at your gym and help more climbers find The Local Crux.">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -63,68 +63,38 @@
   <style>
 .flier-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0 28px; }
 .flier-stage { display: flex; justify-content: center; margin: 8px 0 40px; }
-.flier {
-  width: min(100%, 384px);
-  aspect-ratio: 4 / 6;
-  background: #ffffff;
-  color: #2e2a27;
+.flier-stage img {
+  width: min(100%, 560px);
+  height: auto;
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow);
-  padding: 7% 8%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
 }
-.flier img.flier-logo { width: 62%; height: auto; }
-.flier h2 {
-  display: block;
-  font-family: "Archivo Black", sans-serif;
-  font-size: 1.7rem;
-  line-height: 1.1;
-  margin: 6% 0 3%;
-  color: #2e2a27;
-}
-.flier h2 .accent { color: #c15321; }
-.flier p { margin: 0; font-size: 0.95rem; color: #6e655e; }
-.flier img.flier-qr { width: 58%; height: auto; margin: 7% 0 3%; image-rendering: pixelated; }
-.flier .flier-scan { font-weight: 700; color: #2e2a27; font-size: 1.05rem; }
-.flier .flier-url { margin-top: auto; font-family: var(--font-mono); font-size: 0.9rem; color: #c15321; }
 @media print {
-  @page { size: 4in 6in; margin: 0; }
+  @page { size: letter; margin: 0; }
   body * { visibility: hidden; }
-  .flier, .flier * { visibility: visible; }
-  .flier {
-    position: fixed; inset: 0; width: 4in; height: 6in; aspect-ratio: auto;
-    border: 0; border-radius: 0; box-shadow: none; padding: 0.3in;
-  }
+  .flier-stage, .flier-stage * { visibility: visible; }
+  .flier-stage { position: fixed; inset: 0; margin: 0; }
+  .flier-stage img { width: 100%; height: 100%; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; }
 }
 </style>
   <main>
     <div class="wrap page-title">
       <h1>Fliers</h1>
-      <p class="meta">Want The Local Crux at your gym? Print a flier, post it up, and help more climbers in your area find each other.</p>
+      <p class="meta">Want The Local Crux at your gym? Print a flier and post it up.</p>
     </div>
 
     <div class="wrap">
       <div class="card">
-        <strong>How to use it</strong>
-        <p>Tap Print flier and choose 4 x 6 inch paper, or save it as a PDF to print anywhere. Please ask the front desk before posting it at a gym. The QR code takes people to this site, where they can join the beta on iPhone or Android.</p>
+        <strong>Help more climbers find each other</strong>
+        <p>The more climbers in your area use The Local Crux, the easier it is to find a partner at your gym. Print a flier, post it on the community board at your gym, and help your local climbing community grow. Please ask the front desk before you post it.</p>
       </div>
       <div class="flier-actions">
-        <button class="btn" type="button" onclick="window.print()">Print flier</button>
-        <a class="btn secondary" href="assets/flier-qr.svg" download="the-local-crux-qr.svg">Download QR code</a>
+        <a class="btn" href="assets/the-local-crux-flier.pdf" download="the-local-crux-flier.pdf">Download flier (PDF)</a>
+        <button class="btn secondary" type="button" onclick="window.print()">Print flier</button>
       </div>
       <div class="flier-stage">
-        <div class="flier" id="flier">
-          <img class="flier-logo" src="assets/logo-light.png" alt="The Local Crux">
-          <h2>Find your next <span class="accent">climbing partner</span></h2>
-          <p>Match with local climbers by skill, style, and schedule. See who is at your gym and plan a session.</p>
-          <img class="flier-qr" src="assets/flier-qr.svg" alt="QR code for thelocalcrux.com">
-          <span class="flier-scan">Scan to join the beta</span>
-          <span class="flier-url">thelocalcrux.com</span>
-        </div>
+        <img src="assets/the-local-crux-flier-preview.jpg" alt="The Local Crux flier: Find local climbing partners. Scan the QR code or visit TheLocalCrux.com to join the beta.">
       </div>
     </div>
   </main>
