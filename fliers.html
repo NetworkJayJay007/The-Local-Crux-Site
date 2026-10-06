@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Local Crux: Fliers</title>
+<meta name="description" content="Print a flier to put up at your gym and help more climbers find The Local Crux.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0640dd675be24d40ba9351e78dc34232"}'></script>
+<script>
+(function () {
+  try {
+    var params = new URLSearchParams(location.search);
+    var src = params.get("src");
+    if (!src) return;
+    fetch("https://xioisuktsokyuupnobes.supabase.co/rest/v1/rpc/record_tagged_visit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": "sb_publishable_szx3egTPABoU3xKzowV3KA_W9XIk4cz",
+        "Authorization": "Bearer sb_publishable_szx3egTPABoU3xKzowV3KA_W9XIk4cz"
+      },
+      body: JSON.stringify({
+        p_path: location.pathname,
+        p_src: src,
+        p_referrer: document.referrer || "",
+        p_user_agent: navigator.userAgent || ""
+      })
+    }).catch(function () {});
+    params.delete("src");
+    var qs = params.toString();
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="The Local Crux">
+        <picture>
+          <source srcset="assets/logo-dark.png" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo-light.png" alt="The Local Crux">
+        </picture>
+      </a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="support.html">Support</a>
+        <a href="team.html">Team</a>
+        <a href="whats-new.html">What's New</a>
+        <a href="bulletin-submit.html">Bulletin</a>
+        <a href="partner-login.html">Manage Gym Card</a>
+      </nav>
+    </div>
+  </header>
+
+  <style>
+.flier-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0 28px; }
+.flier-stage { display: flex; justify-content: center; margin: 8px 0 40px; }
+.flier {
+  width: min(100%, 384px);
+  aspect-ratio: 4 / 6;
+  background: #ffffff;
+  color: #2e2a27;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 7% 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.flier img.flier-logo { width: 62%; height: auto; }
+.flier h2 {
+  display: block;
+  font-family: "Archivo Black", sans-serif;
+  font-size: 1.7rem;
+  line-height: 1.1;
+  margin: 6% 0 3%;
+  color: #2e2a27;
+}
+.flier h2 .accent { color: #c15321; }
+.flier p { margin: 0; font-size: 0.95rem; color: #6e655e; }
+.flier img.flier-qr { width: 58%; height: auto; margin: 7% 0 3%; image-rendering: pixelated; }
+.flier .flier-scan { font-weight: 700; color: #2e2a27; font-size: 1.05rem; }
+.flier .flier-url { margin-top: auto; font-family: var(--font-mono); font-size: 0.9rem; color: #c15321; }
+@media print {
+  @page { size: 4in 6in; margin: 0; }
+  body * { visibility: hidden; }
+  .flier, .flier * { visibility: visible; }
+  .flier {
+    position: fixed; inset: 0; width: 4in; height: 6in; aspect-ratio: auto;
+    border: 0; border-radius: 0; box-shadow: none; padding: 0.3in;
+  }
+}
+</style>
+  <main>
+    <div class="wrap page-title">
+      <h1>Fliers</h1>
+      <p class="meta">Want The Local Crux at your gym? Print a flier, post it up, and help more climbers in your area find each other.</p>
+    </div>
+
+    <div class="wrap">
+      <div class="card">
+        <strong>How to use it</strong>
+        <p>Tap Print flier and choose 4 x 6 inch paper, or save it as a PDF to print anywhere. Please ask the front desk before posting it at a gym. The QR code takes people to this site, where they can join the beta on iPhone or Android.</p>
+      </div>
+      <div class="flier-actions">
+        <button class="btn" type="button" onclick="window.print()">Print flier</button>
+        <a class="btn secondary" href="assets/flier-qr.svg" download="the-local-crux-qr.svg">Download QR code</a>
+      </div>
+      <div class="flier-stage">
+        <div class="flier" id="flier">
+          <img class="flier-logo" src="assets/logo-light.png" alt="The Local Crux">
+          <h2>Find your next <span class="accent">climbing partner</span></h2>
+          <p>Match with local climbers by skill, style, and schedule. See who is at your gym and plan a session.</p>
+          <img class="flier-qr" src="assets/flier-qr.svg" alt="QR code for thelocalcrux.com">
+          <span class="flier-scan">Scan to join the beta</span>
+          <span class="flier-url">thelocalcrux.com</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="brand">
+        <picture>
+          <source srcset="assets/logo-dark.png" media="(prefers-color-scheme: dark)">
+          <img src="assets/logo-light.png" alt="">
+        </picture>
+        <span>© The Local Crux</span>
+      </div>
+      <div class="social-links">
+        <a href="https://local-crux-track.xyvgrc925p.workers.dev/go/instagram" target="_blank" rel="noopener" aria-label="Follow The Local Crux on Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+      <nav>
+        <a href="mailto:Help@TheLocalCrux.com">Contact</a>
+        <a href="fliers.html">Fliers</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="liability.html">Liability Disclaimer</a>
+        <a href="guidelines.html">Community Guidelines</a>
+        <a href="account-deletion.html">Delete Account</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
